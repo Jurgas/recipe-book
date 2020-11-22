@@ -10,24 +10,30 @@ import {Subject} from 'rxjs';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'A Test Recipie',
-      'This is simply a test',
-      'https://p0.pxfuel.com/preview/344/674/482/quinoa-salad-vegetarian-diet.jpg',
-      [
-        new Ingredient('Meat', 1),
-        new Ingredient('French Fries', 20)]),
-    new Recipe(
-      'Another Test Recipie',
-      'This is simply a test',
-      'https://p0.pxfuel.com/preview/344/674/482/quinoa-salad-vegetarian-diet.jpg',
-      [
-        new Ingredient('Buns', 2),
-        new Ingredient('Meat', 1)]),
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'A Test Recipie',
+  //     'This is simply a test',
+  //     'https://p0.pxfuel.com/preview/344/674/482/quinoa-salad-vegetarian-diet.jpg',
+  //     [
+  //       new Ingredient('Meat', 1),
+  //       new Ingredient('French Fries', 20)]),
+  //   new Recipe(
+  //     'Another Test Recipie',
+  //     'This is simply a test',
+  //     'https://p0.pxfuel.com/preview/344/674/482/quinoa-salad-vegetarian-diet.jpg',
+  //     [
+  //       new Ingredient('Buns', 2),
+  //       new Ingredient('Meat', 1)]),
+  // ];
+  private recipes: Recipe[] = [];
 
   constructor(private slService: ShoppingListService) {
+  }
+
+  setRecipes(recipes: Recipe[]): void {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
   }
 
   getRecipes(): Recipe[] {
