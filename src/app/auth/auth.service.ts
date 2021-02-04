@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {User} from './user.model';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 export interface AuthResponseData {
   idToken: string;
@@ -27,7 +28,7 @@ export class AuthService {
   }
 
   register(email: string, password: string): Observable<AuthResponseData> {
-    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBvS05OGL-8UWug0yJ3qXL5eXxLh2Ld7n8',
+    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey,
       {
         email,
         password,
@@ -39,7 +40,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponseData> {
-    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBvS05OGL-8UWug0yJ3qXL5eXxLh2Ld7n8',
+    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAPIKey,
       {
         email,
         password,
@@ -81,7 +82,6 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number): void {
-    console.log(expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
